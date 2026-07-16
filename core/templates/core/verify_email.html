@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+{% block title %}Verify Email — LykoonAdds{% endblock %}
+{% block main_class %}main-narrow{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-title">Verify your email</div>
+  <div class="card-sub">We sent a 6-digit code to <strong style="color:var(--slate7)">{{ email }}</strong>. Enter it below to activate your account. (In development mode, check the server console for the code.)</div>
+  <form method="post">
+    {% csrf_token %}
+    <label>6-digit code</label>
+    <input type="text" name="code" maxlength="6" inputmode="numeric" required autofocus>
+    {% if form.code.errors %}<div class="field-error">{{ form.code.errors|join:", " }}</div>{% endif %}
+    <button type="submit" class="btn-primary"><i class="fa-solid fa-shield-check"></i> Verify</button>
+  </form>
+  <div class="link-row">Didn't get a code? <a href="{% url 'core:resend_otp' %}">Resend</a></div>
+</div>
+{% endblock %}

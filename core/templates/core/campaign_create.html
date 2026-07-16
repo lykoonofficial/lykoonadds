@@ -1,0 +1,57 @@
+{% extends "core/base.html" %}
+{% block title %}Advertise with LykoonAdds{% endblock %}
+{% block main_class %}main-narrow{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-title">Advertise with LykoonAdds</div>
+  <div class="card-sub">
+    Submit your campaign below. Half your budget ({{ 50 }}%) is paid out directly to users who
+    complete your ad task — the rest funds the platform. Your campaign goes live as soon as our
+    team confirms your payment (we'll contact you using the details below).
+  </div>
+
+  <div class="alert alert-info" style="align-items:flex-start">
+    <i class="fa-solid fa-circle-info" style="margin-top:2px"></i>
+    <span>
+      <strong>How payment works:</strong> after you submit this form, email us at
+      <a href="mailto:{{ SUPPORT_EMAIL }}" style="color:var(--teal2);font-weight:700">{{ SUPPORT_EMAIL }}</a>
+      to arrange payment (Easypaisa, JazzCash, or bank transfer). We'll activate your campaign as
+      soon as we confirm the funds have arrived.
+    </span>
+  </div>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <label>Company name</label>
+    <input type="text" name="company_name" required>
+    <label>Contact person</label>
+    <input type="text" name="contact_person" required>
+    <label>Contact email</label>
+    <input type="email" name="contact_email" required>
+    <label>Contact phone</label>
+    <input type="tel" name="contact_phone" required>
+
+    <label>Ad / campaign title</label>
+    <input type="text" name="title" required>
+    <label>Description</label>
+    <textarea name="description" placeholder="What should users see/do?"></textarea>
+    <label>Ad link / video URL</label>
+    <input type="text" name="target_url" placeholder="https://..." required>
+    <label>Task duration (seconds)</label>
+    <input type="number" name="duration_seconds" value="30" min="5" max="600" required>
+    <label>Total budget (PKR)</label>
+    <input type="number" name="total_budget" min="1" required>
+    <label>Cost per view (PKR)</label>
+    <input type="number" name="cost_per_view" value="10" min="1" required>
+    <div class="field-help">This determines how many users can complete the task: total budget ÷ cost per view. Half of the cost-per-view is credited to the user who completes it.</div>
+
+    <label>Security check: what is {{ captcha_question }}?</label>
+    <input type="number" name="captcha_answer" required>
+
+    {% if form.non_field_errors %}<div class="field-error">{{ form.non_field_errors|join:", " }}</div>{% endif %}
+
+    <button type="submit" class="btn-primary"><i class="fa-solid fa-bullseye"></i> Submit Campaign</button>
+  </form>
+  <div class="link-row"><a href="{% url 'core:dashboard' %}">← Back to dashboard</a></div>
+</div>
+{% endblock %}

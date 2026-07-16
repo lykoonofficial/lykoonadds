@@ -1,0 +1,37 @@
+{% extends "core/base.html" %}
+{% block title %}Create Account — LykoonAdds{% endblock %}
+{% block main_class %}main-narrow{% endblock %}
+{% block content %}
+<div class="card">
+  <span class="badge badge-teal" style="margin-bottom:16px"><i class="fa-solid fa-user-plus"></i> Free Account</span>
+  <div class="card-title">Create your account</div>
+  <div class="card-sub">Start earning by completing tasks. Your email will need a quick 6-digit code to activate the account.</div>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <label>Username</label>
+    <input type="text" name="username" value="{{ form.username.value|default:'' }}" required>
+    {% if form.username.errors %}<div class="field-error">{{ form.username.errors|join:", " }}</div>{% endif %}
+
+    <label>Email</label>
+    <input type="email" name="email" value="{{ form.email.value|default:'' }}" required>
+    {% if form.email.errors %}<div class="field-error">{{ form.email.errors|join:", " }}</div>{% endif %}
+
+    <label>Phone number</label>
+    <input type="tel" name="phone_number" placeholder="03xx-xxxxxxx" value="{{ form.phone_number.value|default:'' }}" required>
+    {% if form.phone_number.errors %}<div class="field-error">{{ form.phone_number.errors|join:", " }}</div>{% endif %}
+
+    <label>Password</label>
+    <input type="password" name="password1" required>
+    <label>Confirm password</label>
+    <input type="password" name="password2" required>
+    {% if form.non_field_errors %}<div class="field-error">{{ form.non_field_errors|join:", " }}</div>{% endif %}
+
+    <label>Security check: what is {{ captcha_question }}?</label>
+    <input type="number" name="captcha_answer" required>
+    {% if form.captcha_answer.errors %}<div class="field-error">{{ form.captcha_answer.errors|join:", " }}</div>{% endif %}
+
+    <button type="submit" class="btn-primary"><i class="fa-solid fa-user-plus"></i> Create Account</button>
+  </form>
+  <div class="link-row">Already have an account? <a href="{% url 'core:login' %}">Login</a></div>
+</div>
+{% endblock %}

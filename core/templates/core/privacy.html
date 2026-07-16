@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+{% block title %}Privacy Policy — LykoonAdds{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-title">Privacy Policy</div>
+  <div class="card-sub" style="margin-bottom:0">
+    <p style="margin-bottom:14px">This page explains what information LykoonAdds stores and why.</p>
+    <p style="margin-bottom:14px"><strong style="color:var(--slate7)">Information we store:</strong> your username, email address, phone number, wallet balance, task completion history, and the withdrawal account details (Easypaisa/JazzCash number and name) you submit for payout.</p>
+    <p style="margin-bottom:14px"><strong style="color:var(--slate7)">Why we store it:</strong> to run your account, credit task rewards accurately, send your email verification code, prevent duplicate/bot accounts, and send your withdrawal to the right place.</p>
+    <p style="margin-bottom:14px"><strong style="color:var(--slate7)">Who can see it:</strong> only the LykoonAdds admin team, for the purpose of approving campaigns and processing withdrawals. We do not sell your personal data to third parties.</p>
+    <p style="margin-bottom:14px"><strong style="color:var(--slate7)">Security:</strong> passwords are stored using Django's built-in salted-hash system (never in plain text). Sessions use HttpOnly, SameSite cookies.</p>
+    <p style="margin-bottom:0"><strong style="color:var(--slate7)">Your choices:</strong> contact the site admin to request a copy of your data or to have your account and associated data deleted, subject to any pending withdrawal records we're required to keep for accounting purposes.</p>
+  </div>
+  <div class="link-row" style="margin-top:24px"><a href="{% url 'core:dashboard' %}">← Back home</a></div>
+</div>
+{% endblock %}

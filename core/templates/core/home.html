@@ -1,0 +1,120 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}LykoonAdds — Watch. Earn. Withdraw.{% endblock %}
+{% block main_class %}main-wide{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Secure · Verified · Manual-Approved Payouts</div>
+  <h1 class="hero-title">Complete simple tasks.<br><span class="grad">Earn real PKR. Withdraw with ease.</span></h1>
+  <p class="hero-sub">LykoonAdds pays you directly to Easypaisa or JazzCash for completing short ad tasks — no hidden fees, no bots, just a clean wallet and a transparent 50/50 split with every advertiser.</p>
+  <div class="hero-cta">
+    <a href="{% url 'core:register' %}" class="btn-primary" style="width:auto"><i class="fa-solid fa-bolt"></i> Get Started Free</a>
+    <a href="{% url 'core:login' %}" class="btn-outline"><i class="fa-solid fa-right-to-bracket"></i> I already have an account</a>
+  </div>
+
+  <div class="hero-preview">
+    <div class="hero-preview-row">
+      <div class="hero-preview-dots"><span style="background:#ef4444"></span><span style="background:#f59e0b"></span><span style="background:#10b981"></span></div>
+      <span class="badge badge-teal"><i class="fa-solid fa-circle"></i> Live Wallet Preview</span>
+    </div>
+    <div class="hero-preview-grid">
+      <div class="hero-preview-card">
+        <div class="hp-label">Wallet Balance</div>
+        <div class="hp-val teal">1,240 PKR</div>
+      </div>
+      <div class="hero-preview-card">
+        <div class="hp-label">Tasks Completed</div>
+        <div class="hp-val">18</div>
+      </div>
+      <div class="hero-preview-card">
+        <div class="hp-label">Payout Method</div>
+        <div class="hp-val">Easypaisa</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-lbl">Why LykoonAdds</div>
+<h2 class="section-heading">Built to be fast, fair, and hard to abuse</h2>
+<div class="feature-grid">
+  <div class="feature-card">
+    <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+    <div class="feature-title">Instant Task Rewards</div>
+    <div class="feature-text">Complete a timed ad task and see your wallet update immediately — no waiting, no manual review for earning.</div>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+    <div class="feature-title">Serious Anti-Bot Protection</div>
+    <div class="feature-text">Email OTP, security checks, server-verified timers, and per-account limits keep the platform fair for real people.</div>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon"><i class="fa-solid fa-money-bill-transfer"></i></div>
+    <div class="feature-title">Easypaisa &amp; JazzCash</div>
+    <div class="feature-text">Request a withdrawal any time. Our team reviews and sends your money by hand within {{ WITHDRAWAL_SLA_HOURS|default:"24" }} hours.</div>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon"><i class="fa-solid fa-bullseye"></i></div>
+    <div class="feature-title">Transparent for Advertisers</div>
+    <div class="feature-text">Companies know exactly where their money goes: half funds user rewards, half funds the platform — no surprises.</div>
+  </div>
+</div>
+
+<div class="section-lbl">How it works</div>
+<h2 class="section-heading">Three steps to your first withdrawal</h2>
+<div class="steps-row">
+  <div class="step-card">
+    <div class="step-num">1</div>
+    <div class="step-title">Create your account</div>
+    <div class="step-text">Sign up and verify your email with a 6-digit code — takes under a minute.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">2</div>
+    <div class="step-title">Complete tasks</div>
+    <div class="step-text">Browse live ad tasks on your dashboard and complete the timer to earn PKR.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">3</div>
+    <div class="step-title">Request withdrawal</div>
+    <div class="step-text">Choose Easypaisa or JazzCash, enter your number, and submit a request.</div>
+  </div>
+  <div class="step-card">
+    <div class="step-num">4</div>
+    <div class="step-title">Get paid by hand</div>
+    <div class="step-text">Our team sends the money directly from our own wallet — reviewed, not automated.</div>
+  </div>
+</div>
+
+<div class="payout-strip">
+  <div class="payout-strip-item"><i class="fa-solid fa-mobile-screen"></i> Easypaisa</div>
+  <div class="payout-strip-item"><i class="fa-solid fa-credit-card"></i> JazzCash</div>
+  <div class="payout-strip-item"><i class="fa-solid fa-lock"></i> Email-Verified Accounts Only</div>
+  <div class="payout-strip-item"><i class="fa-solid fa-download"></i> Installable on Any Device</div>
+</div>
+
+<div class="trust-note">
+  <i class="fa-solid fa-circle-info"></i>
+  <span>Withdrawals are reviewed and paid out manually by our team rather than an automated payment gateway — this keeps every payout accountable and traceable, and protects your balance from unauthorized transfers.</span>
+</div>
+
+<div class="cta-band">
+  <h3>Ready to start earning?</h3>
+  <p>Create your free account in under a minute and see your first task on the dashboard right away.</p>
+  <a href="{% url 'core:register' %}" class="btn-primary" style="width:auto;display:inline-flex"><i class="fa-solid fa-user-plus"></i> Create Free Account</a>
+</div>
+
+<div class="cta-band" style="margin-top:24px">
+  <h3>Are you a business? Advertise here.</h3>
+  <p>Reach real, verified users who complete your ad task in exchange for a fair, transparent reward. Get in touch to discuss your campaign and payment.</p>
+  <div class="cta-band-buttons">
+    <a href="mailto:{{ SUPPORT_EMAIL }}" class="btn-outline" style="width:auto;display:inline-flex"><i class="fa-solid fa-envelope"></i> {{ SUPPORT_EMAIL }}</a>
+    <a href="{% url 'core:campaign_create' %}" class="btn-primary" style="width:auto;display:inline-flex"><i class="fa-solid fa-bullseye"></i> Submit a Campaign</a>
+  </div>
+</div>
+
+{% endblock %}

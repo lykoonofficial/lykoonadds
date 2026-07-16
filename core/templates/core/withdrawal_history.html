@@ -1,0 +1,41 @@
+{% extends "core/base.html" %}
+{% block title %}Withdrawal History — LykoonAdds{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-title">Withdrawal history</div>
+  <div class="card-sub">Track the status of every withdrawal request you've submitted.</div>
+
+  {% if withdrawals %}
+  <div style="overflow-x:auto">
+  <table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead>
+      <tr style="text-align:left;border-bottom:1px solid var(--border)">
+        <th style="padding:10px 8px;color:var(--slate5);font-family:var(--font-space);font-size:10px;text-transform:uppercase">Date</th>
+        <th style="padding:10px 8px;color:var(--slate5);font-family:var(--font-space);font-size:10px;text-transform:uppercase">Method</th>
+        <th style="padding:10px 8px;color:var(--slate5);font-family:var(--font-space);font-size:10px;text-transform:uppercase">Amount</th>
+        <th style="padding:10px 8px;color:var(--slate5);font-family:var(--font-space);font-size:10px;text-transform:uppercase">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for w in withdrawals %}
+      <tr style="border-bottom:1px solid rgba(255,255,255,.04)">
+        <td style="padding:10px 8px;color:var(--slate6);font-family:var(--font-mono)">{{ w.requested_at|date:"d M, H:i" }}</td>
+        <td style="padding:10px 8px">{{ w.get_method_display }}</td>
+        <td style="padding:10px 8px;color:var(--teal2);font-family:var(--font-mono)">{{ w.amount }} PKR</td>
+        <td style="padding:10px 8px">
+          <span class="badge {% if w.status == 'completed' %}badge-teal{% endif %}" style="{% if w.status == 'pending' %}background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--yellow){% elif w.status == 'rejected' %}background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red2){% endif %}">
+            {{ w.get_status_display }}
+          </span>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+  <div class="empty-sub" style="text-align:center;padding:30px 0">No withdrawal requests yet.</div>
+  {% endif %}
+
+  <div class="link-row" style="margin-top:20px"><a href="{% url 'core:dashboard' %}">← Back to dashboard</a></div>
+</div>
+{% endblock %}

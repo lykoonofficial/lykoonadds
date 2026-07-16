@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+{% block title %}Withdraw via {{ method|title }} — LykoonAdds{% endblock %}
+{% block main_class %}main-narrow{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-title">Withdraw via {{ method|title }}</div>
+  <div class="card-sub">
+    Available balance: <strong style="color:var(--teal2)">{{ profile.wallet_balance }} PKR</strong>.
+    Requests are reviewed and paid out manually by our team — money reaches your {{ method|title }}
+    account within <strong>{{ WITHDRAWAL_SLA_HOURS }} hours</strong>. The amount is reserved from your
+    wallet as soon as you submit the request.
+  </div>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="method" value="{{ method }}">
+
+    <label>{{ method|title }} account number</label>
+    <input type="tel" name="account_number" placeholder="03xx-xxxxxxx" required>
+    {% if form.account_number.errors %}<div class="field-error">{{ form.account_number.errors|join:", " }}</div>{% endif %}
+
+    <label>Account holder name</label>
+    <input type="text" name="account_name" placeholder="As registered on {{ method|title }}" required>
+    {% if form.account_name.errors %}<div class="field-error">{{ form.account_name.errors|join:", " }}</div>{% endif %}
+
+    <label>Amount (PKR)</label>
+    <input type="number" name="amount" min="{{ MIN_WITHDRAWAL_PKR }}" step="1" required>
+    <div class="field-help">Minimum withdrawal: {{ MIN_WITHDRAWAL_PKR }} PKR</div>
+    {% if form.amount.errors %}<div class="field-error">{{ form.amount.errors|join:", " }}</div>{% endif %}
+
+    <label>Security check: what is {{ captcha_question }}?</label>
+    <input type="number" name="captcha_answer" required>
+    {% if form.captcha_answer.errors %}<div class="field-error">{{ form.captcha_answer.errors|join:", " }}</div>{% endif %}
+
+    <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Submit Withdrawal Request</button>
+  </form>
+  <div class="link-row"><a href="{% url 'core:dashboard' %}">← Back to dashboard</a> &nbsp;·&nbsp; <a href="{% url 'core:withdrawal_history' %}">View history</a></div>
+</div>
+{% endblock %}

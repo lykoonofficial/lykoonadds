@@ -1,0 +1,48 @@
+{% extends "core/base.html" %}
+{% block title %}{{ campaign.title }} — LykoonAdds{% endblock %}
+{% block main_class %}main-narrow{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-title">{{ campaign.title }}</div>
+  <div class="card-sub">{{ campaign.description|default:"Complete this task to earn your reward." }}</div>
+
+  <div style="background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:12px;padding:16px;margin-bottom:18px;overflow:hidden">
+    <iframe src="{{ campaign.target_url }}" style="display:block;width:100%;height:220px;max-width:100%;border:0;border-radius:8px;background:#000" loading="lazy" title="Ad content" scrolling="no"></iframe>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+    <span class="badge badge-teal"><i class="fa-solid fa-coins"></i> Reward: {{ campaign.user_reward }} PKR</span>
+    <span style="font-family:var(--font-mono);font-size:22px;font-weight:800;color:var(--teal2)" id="countdown">{{ campaign.duration_seconds }}s</span>
+  </div>
+
+  <form method="post" id="claim-form">
+    {% csrf_token %}
+    <button type="submit" class="btn-primary" id="claim-btn" disabled>
+      <i class="fa-solid fa-lock"></i> Wait for timer...
+    </button>
+  </form>
+  <div class="link-row"><a href="{% url 'core:dashboard' %}">← Back to dashboard</a></div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Cosmetic countdown only. The server independently verifies the elapsed
+// time against the session start-time recorded on GET — so this cannot be
+// bypassed by editing the page or skipping the JS.
+let remaining = {{ campaign.duration_seconds }};
+const el = document.getElementById('countdown');
+const btn = document.getElementById('claim-btn');
+const timer = setInterval(() => {
+  remaining -= 1;
+  if (remaining <= 0) {
+    clearInterval(timer);
+    el.textContent = 'Done!';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-bolt"></i> Claim Reward';
+  } else {
+    el.textContent = remaining + 's';
+  }
+}, 1000);
+</script>
+{% endblock %}

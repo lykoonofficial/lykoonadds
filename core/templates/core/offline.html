@@ -1,0 +1,11 @@
+{% extends "core/base.html" %}
+{% block title %}You're offline — LykoonAdds{% endblock %}
+{% block main_class %}main-narrow{% endblock %}
+{% block content %}
+<div class="card" style="text-align:center">
+  <div class="empty-icon" style="margin:0 auto 16px"><i class="fa-solid fa-wifi"></i></div>
+  <div class="card-title">You're offline</div>
+  <div class="card-sub">No internet connection detected. Reconnect and try again — your wallet and tasks are safely stored on the server.</div>
+  <button class="btn-primary" onclick="window.location.reload()"><i class="fa-solid fa-rotate"></i> Retry</button>
+</div>
+{% endblock %}

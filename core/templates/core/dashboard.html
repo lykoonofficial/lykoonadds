@@ -1,0 +1,176 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Dashboard — LykoonAdds{% endblock %}
+{% block main_class %}main-wide{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div style="max-width:1400px;margin:0 auto">
+
+<div class="section-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+  <div class="section-title"><span class="section-dot"></span> Command Center Overview</div>
+  <div style="font-size:10px;font-family:var(--font-mono);color:var(--slate4)" id="live-time"></div>
+</div>
+
+<div class="hero-grid">
+  <div class="wallet-card">
+    <div class="wallet-top">
+      <div class="wallet-label"><i class="fa-solid fa-wallet"></i> Available Wallet Balance</div>
+      <span class="secure-badge">Secure Ledger</span>
+    </div>
+    <div class="wallet-amount">
+      <span class="wallet-value">{{ profile.wallet_balance }}</span>
+      <span class="wallet-currency">PKR</span>
+    </div>
+    <div class="wallet-footer">
+      <div class="wallet-status"><span class="wallet-ping"></span> Verified &amp; active</div>
+      <span class="wallet-id">ID: {{ profile.id }}</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon-wrap stat-icon-teal"><i class="fa-solid fa-circle-check"></i></div>
+    <div>
+      <div class="stat-label">Tasks Cleared</div>
+      <div class="stat-value">{{ tasks_cleared }}<span>done</span></div>
+    </div>
+    <div class="stat-sub"><span class="stat-sub-badge">100%</span> Core Rate</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon-wrap stat-icon-emerald"><i class="fa-solid fa-chart-line"></i></div>
+    <div>
+      <div class="stat-label">Active Tasks</div>
+      <div class="stat-value">{{ ads|length }}<span>units</span></div>
+    </div>
+    <div class="stat-sub"><span class="stat-sub-badge">LIVE</span> Gateway Open</div>
+  </div>
+</div>
+
+<div class="ops-header">
+  <div class="ops-title-group">
+    <div class="section-title"><span class="section-dot"></span> Available Tasks</div>
+    <span class="ops-count-badge">{{ ads|length }} nodes</span>
+  </div>
+  <div class="ops-controls">
+    <div class="search-wrap">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="search-input" placeholder="Search tasks...">
+    </div>
+  </div>
+</div>
+
+<div class="ops-grid" id="ops-grid">
+  <div class="ad-card" data-title="" style="align-items:center;justify-content:center;padding:12px">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '2a14b98ab1f312ea76aba69ca9c8c83c',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="https://www.highperformanceformat.com/2a14b98ab1f312ea76aba69ca9c8c83c/invoke.js"></script>
+  </div>
+  <script type="text/javascript" src="https://pl30343097.effectivecpmnetwork.com/79/b3/eb/79b3ebe09fa67d2eb86aa737104ede8d.js"></script>
+  {% for ad in ads %}
+  <div class="ad-card" data-title="{{ ad.title|lower }}">
+    <div class="ad-card-top">
+      <span class="ad-card-num">VEC-{{ forloop.counter|stringformat:"03d" }}</span>
+      <span class="ad-category-dot"></span>
+    </div>
+    <div class="ad-title">{{ ad.title }}</div>
+    <div class="ad-meta">
+      <span class="ad-tag tag-dur"><i class="fa-regular fa-clock"></i> {{ ad.duration_seconds }}s</span>
+      <span class="ad-tag tag-rew"><i class="fa-solid fa-coins"></i> {{ ad.user_reward }} PKR</span>
+    </div>
+    <div class="ad-progress-wrap">
+      <div class="ad-progress-label"><span>Slots filled</span><span>{{ ad.current_views }}/{{ ad.max_views }}</span></div>
+      <div class="ad-progress-bar">
+        <div class="ad-progress-fill" style="width:{% if ad.max_views %}{% widthratio ad.current_views ad.max_views 100 %}{% else %}0{% endif %}%"></div>
+      </div>
+    </div>
+    {% if ad.locked_forever %}
+      <div class="ad-btn-disabled"><i class="fa-solid fa-lock" style="font-size:9px"></i> Already Completed</div>
+    {% elif ad.hours_left %}
+      <div class="ad-btn-disabled"><i class="fa-regular fa-clock" style="font-size:9px"></i> Available again in {{ ad.hours_left }}h</div>
+    {% elif ad.is_exhausted %}
+      <div class="ad-btn-disabled"><i class="fa-solid fa-lock" style="font-size:9px"></i> No Slots Left</div>
+    {% else %}
+      <a href="{% url 'core:watch_ad' ad.id %}" class="ad-btn-primary">
+        <i class="fa-solid fa-bolt" style="font-size:10px"></i> Start Task
+      </a>
+    {% endif %}
+  </div>
+  {% empty %}
+  <div class="empty-state show">
+    <div class="empty-icon"><i class="fa-solid fa-box-open"></i></div>
+    <div class="empty-title">No Tasks Available Right Now</div>
+    <div class="empty-sub">New tasks appear as soon as a company's campaign is approved. Check back soon.</div>
+  </div>
+  {% endfor %}
+  <div class="empty-state" id="empty-state">
+    <div class="empty-icon"><i class="fa-solid fa-ban"></i></div>
+    <div class="empty-title">No Matching Tasks</div>
+    <div class="empty-sub">Try a different search term.</div>
+  </div>
+</div>
+
+<div class="activity-row">
+  <div class="activity-card withdraw-card" style="grid-column:1/-1;max-width:360px;margin-left:auto">
+    <div class="payout-title" style="font-family:var(--font-space);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--slate5);margin-bottom:14px">
+      <i class="fa-solid fa-money-bill-transfer" style="color:var(--teal);margin-right:6px"></i> Withdraw Funds
+    </div>
+    <a href="{% url 'core:payout_method' 'easypaisa' %}" class="payout-method">
+      <div class="payout-method-icon pm-green"><i class="fa-solid fa-mobile-screen"></i></div>
+      <div class="payout-method-info">
+        <div class="pm-name">Easypaisa</div>
+        <div class="pm-sub">Manual transfer · within {{ WITHDRAWAL_SLA_HOURS }}h</div>
+      </div>
+      <i class="fa-solid fa-chevron-right pm-arrow"></i>
+    </a>
+    <a href="{% url 'core:payout_method' 'jazzcash' %}" class="payout-method">
+      <div class="payout-method-icon pm-blue"><i class="fa-solid fa-credit-card"></i></div>
+      <div class="payout-method-info">
+        <div class="pm-name">JazzCash</div>
+        <div class="pm-sub">Manual transfer · within {{ WITHDRAWAL_SLA_HOURS }}h</div>
+      </div>
+      <i class="fa-solid fa-chevron-right pm-arrow"></i>
+    </a>
+    <div class="payout-divider"></div>
+    <div class="payout-stat-row"><span class="ps-label">Min. Withdrawal</span><span class="ps-val teal">{{ MIN_WITHDRAWAL_PKR }} PKR</span></div>
+    <div class="payout-stat-row"><span class="ps-label">Fee</span><span class="ps-val">0%</span></div>
+    <div class="payout-stat-row" style="margin-top:8px">
+      <a href="{% url 'core:withdrawal_history' %}" class="footer-link" style="color:var(--teal2)">View withdrawal history →</a>
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function updateClock(){
+  const now=new Date();
+  document.getElementById('live-time').textContent='SYS TIME: '+now.toLocaleTimeString('en-US',{hour12:false});
+}
+updateClock();setInterval(updateClock,1000);
+
+const searchInput=document.getElementById('search-input');
+const cards=document.querySelectorAll('.ad-card');
+const emptyState=document.getElementById('empty-state');
+searchInput.addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase().trim();
+  let count=0;
+  cards.forEach(c=>{
+    const match=c.dataset.title.includes(q);
+    c.style.display=match?'flex':'none';
+    if(match)count++;
+  });
+  emptyState.classList.toggle('show',count===0&&q!=='');
+});
+</script>
+{% endblock %}

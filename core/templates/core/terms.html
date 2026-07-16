@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+{% block title %}Terms of Service — LykoonAdds{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-title">Terms of Service</div>
+  <div class="card-sub" style="margin-bottom:0">
+    <p style="margin-bottom:14px">By creating an account and using LykoonAdds, you agree to the following:</p>
+    <p style="margin-bottom:14px"><strong style="color:var(--slate7)">1. One account per person.</strong> Multiple accounts, bots, automated scripts, or emulators used to farm task rewards are not allowed and may result in account suspension and forfeiture of unpaid balance.</p>
+    <p style="margin-bottom:14px"><strong style="color:var(--slate7)">2. Rewards.</strong> Task rewards are credited to your in-app wallet balance after a task is genuinely completed. Reward amounts are set per campaign and may change between campaigns.</p>
+    <p style="margin-bottom:14px"><strong style="color:var(--slate7)">3. Withdrawals.</strong> Withdrawal requests are reviewed and paid out manually by our team to the Easypaisa/JazzCash number you provide. We aim to process every request within {{ WITHDRAWAL_SLA_HOURS }} hours, but this is a service target, not a guaranteed contractual deadline. The minimum withdrawal amount is {{ MIN_WITHDRAWAL_PKR }} PKR.</p>
+    <p style="margin-bottom:14px"><strong style="color:var(--slate7)">4. Accuracy of payout details.</strong> You are responsible for entering the correct account number and name. We are not liable for funds sent to an incorrect account you provided.</p>
+    <p style="margin-bottom:14px"><strong style="color:var(--slate7)">5. Advertisers.</strong> Companies submitting campaigns agree that a fixed percentage of their stated budget is paid to users who complete the associated task, and the remainder is retained by the platform, as shown at the time of campaign submission.</p>
+    <p style="margin-bottom:0"><strong style="color:var(--slate7)">6. Changes.</strong> We may update these terms as the service evolves; continued use of the platform means you accept the current version.</p>
+  </div>
+  <div class="link-row" style="margin-top:24px"><a href="{% url 'core:dashboard' %}">← Back home</a></div>
+</div>
+{% endblock %}
